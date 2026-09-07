@@ -4,6 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go)](go.mod)
 
+<!-- demo: pr-status comparison, heavier task setup -->
+
 **`gw`** is a deterministic, token-efficient Git and GitHub workflow engine designed for multi-model AI coding agents (Antigravity, Gemini CLI, Claude Code, Cursor, Codex, etc.) and developer tooling.
 
 Instead of issuing sequences of raw, verbose, and unpredictable shell commands (`git status`, `git add`, `git commit`, `git push`, `gh pr create`, `gh pr checks`), AI agents invoke `gw` as a unified skill. `gw` observes repository state, computes deterministic decisions in pure code, executes guarded mutations, and returns compact JSON envelopes.
