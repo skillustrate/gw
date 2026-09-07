@@ -149,38 +149,187 @@ lock:
   stale_after: 10m             # Automatically reclaims locks older than 10 minutes
 ```
 
----
+## 📦 Installation & Setup
 
-## 🤖 AI Skill Setup
+### 1. Prerequisites
 
-`gw` includes standard skill definitions ready to be placed into your AI agent configuration directories:
-
-- **Antigravity / Gemini CLI:** Copy `skill/git-workflow-engine/SKILL.md` to `.gemini/skills/git-workflow/SKILL.md`
-- **Agent Frameworks:** Copy to `.agents/skills/git-workflow/SKILL.md`
-- **Claude / Cursor / Codex:** Point harness context or tool index to `skill/git-workflow-engine/SKILL.md`
-
----
-
-## 🏗️ Build & Installation
-
-### Prerequisites
 - [Go 1.22+](https://go.dev/dl/)
-- [Git](https://git-scm.com/)
-- [GitHub CLI (`gh`)](https://cli.github.com/)
+- [Git (2.30+)](https://git-scm.com/)
+- [GitHub CLI (`gh`)](https://cli.github.com/) authenticated via `gh auth login`
 
-### Build from Source
 ```bash
+# Verify prerequisites
+git --version
+gh auth status
+go version
+```
+
+### 2. Install the `gw` Binary
+
+#### Option A: Quick Install via `go install` (Recommended)
+```bash
+go install github.com/gitskill/gw/cmd/gw@latest
+```
+> [!NOTE]
+> Ensure your Go binary directory (`$GOPATH/bin` or `~/go/bin`, or `%USERPROFILE%\go\bin` on Windows) is in your system `PATH`.
+
+#### Option B: Build from Source
+```bash
+# Clone repository
+git clone https://github.com/gitskill/gw.git
+cd gw
+
 # Build binary
 go build -trimpath -ldflags "-s -w" -o bin/gw ./cmd/gw
 
-# Run test suite
+# (Optional) Move to global PATH on Linux / macOS:
+sudo cp bin/gw /usr/local/bin/
+
+# On Windows: Add the bin/ directory to your PATH environment variable
+```
+
+#### Option C: Using Makefile
+```bash
+make build
+# Binary created at bin/gw
+```
+
+### 3. Verify Installation
+Run `gw doctor` to validate that `git`, `gh`, and authentication status are ready:
+```bash
+gw doctor
+
+# Or format as a JSON envelope:
+gw doctor --json
+```
+
+---
+
+## 🤖 Installing the AI Skill
+
+`gw` includes standard skill definitions ready to be installed in your AI coding agent configuration directories:
+
+### 1. Google Antigravity / Gemini CLI
+
+- **Workspace-Level (Current Project):**
+  ```bash
+  mkdir -p .gemini/skills/git-workflow
+  cp skill/git-workflow-engine/SKILL.md .gemini/skills/git-workflow/SKILL.md
+  ```
+- **Global-Level (All Projects):**
+  - **Linux / macOS:**
+    ```bash
+    mkdir -p ~/.gemini/skills/git-workflow
+    cp skill/git-workflow-engine/SKILL.md ~/.gemini/skills/git-workflow/SKILL.md
+    ```
+  - **Windows (PowerShell):**
+    ```powershell
+    New-Item -ItemType Directory -Force "$HOME\.gemini\skills\git-workflow"
+    Copy-Item "skill\git-workflow-engine\SKILL.md" "$HOME\.gemini\skills\git-workflow\SKILL.md"
+    ```
+
+### 2. Claude Code
+
+- **Workspace-Level:**
+  ```bash
+  mkdir -p .claude/skills/git-workflow
+  cp skill/git-workflow-engine/SKILL.md .claude/skills/git-workflow/SKILL.md
+  ```
+- **Global-Level:**
+  ```bash
+  mkdir -p ~/.claude/skills/git-workflow
+  cp skill/git-workflow-engine/SKILL.md ~/.claude/skills/git-workflow/SKILL.md
+  ```
+
+### 3. Agent Frameworks & Subagent Squads
+
+- Copy to the standard `.agents/skills` directory:
+  ```bash
+  mkdir -p .agents/skills/git-workflow
+  cp skill/git-workflow-engine/SKILL.md .agents/skills/git-workflow/SKILL.md
+  ```
+
+### 4. Cursor / Codex / Windsurf / Custom Agents
+
+- Reference `skill/git-workflow-engine/SKILL.md` directly in your system prompt, `.cursorrules`, or `.cursor/rules`:
+  ```markdown
+  When performing Git operations, branch synchronization, or Pull Request management, invoke the `gw` CLI tool and follow the protocol specified in skill/git-workflow-engine/SKILL.md.
+  ```
+
+---
+
+## 💡 How to Use
+
+### A. Using with AI Coding Agents
+
+When the skill is loaded, your AI agent automatically intercepts Git/GitHub tasks and executes deterministic `gw` workflows.
+
+#### Conversational Prompt Examples
+
+| User Prompt / Goal | Agent Action | What `gw` Does |
+|---|---|---|
+| *"What is our git status and is PR open?"* | `gw inspect --json` | Observes unified status, active branch, ahead/behind commits, and PR details. |
+| *"Is this branch ready for a pull request?"* | `gw pr-ready --json` | Validates clean tree, pushed commits, base divergence, and existing PR state. |
+| *"Stage and commit these changes with message 'fix: token refresh'"* | `gw prepare --message "..." --yes --json` | Previews planned commit, obtains confirmation, stages and commits. |
+| *"Push my branch to origin"* | `gw push --push-set-upstream --yes --json` | Pushes branch and configures upstream tracking if needed. |
+| *"Sync current branch with main"* | `gw sync --yes --json` | Fast-forward syncs (`--ff-only`) with upstream to prevent accidental merge bubbles. |
+| *"Create a pull request for this feature"* | `gw pr-create --title "..." --yes --json` | Verifies clean working tree & pushed state, then creates GitHub PR. |
+| *"Check PR status and CI checks"* | `gw pr-status --json` | Retrieves rollup of CI check runs, review status, and mergeability. |
+| *"Merge this pull request"* | `gw pr-merge --merge-method squash --yes --json` | Enforces 2FA (approved review + explicit confirmation) and green CI checks before merging. |
+
+#### AI Agent Safety Protocol
+1. **Zero Prompt for Read-Only:** Read-only operations (`inspect`, `pr-ready`, `pr-status`, `doctor`) execute immediately via `--json`.
+2. **Mandatory Confirmation for Mutations:** Before running mutating commands (`prepare`, `push`, `sync`, `pr-create`, `pr-merge`), the agent presents planned actions (action type, branches, affected files/PR title) and requests confirmation before running with `--yes`.
+3. **Structured Response Handling:** The agent inspects `status`, `code`, and follows `next_action` on non-success rather than guessing raw shell commands.
+
+---
+
+### B. Using Directly from Terminal (CLI)
+
+`gw` can also be run manually as a developer CLI:
+
+```bash
+# 1. Run diagnostic environment check
+gw doctor
+
+# 2. Inspect repository and PR status
+gw inspect
+
+# 3. Stage & commit modified files (overriding default commit policy with explicit confirmation)
+gw prepare --message "feat: implement caching layer" --commit-allow --yes
+
+# 4. Push branch to remote with upstream tracking
+gw push --push-set-upstream --yes
+
+# 5. Check if branch is ready for a PR
+gw pr-ready
+
+# 6. Create a Pull Request
+gw pr-create --title "feat: implement caching layer" --body "Adds in-memory caching"
+
+# 7. Check PR mergeability & CI status
+gw pr-status
+
+# 8. Fast-forward sync branch with upstream
+gw sync --yes
+
+# 9. Guarded PR Merge (verifies GitHub code review approval + passing CI + --yes)
+gw pr-merge --merge-method squash --merge-allow --yes
+```
+
+---
+
+## 🧪 Testing & Development
+
+```bash
+# Run unit and core tests
 go test ./... -v
 
 # Run vendor neutrality lint
 go test ./internal/vendorcheck/... -v
 
-# Run integration tests (requires git)
-go test ./test/integration/... -v
+# Run integration & E2E tests (requires git)
+go test ./test/... -v
 ```
 
 ---
