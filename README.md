@@ -12,7 +12,7 @@ Instead of issuing sequences of raw, verbose, and unpredictable shell commands (
 
 ## 🚀 Key Highlights & Architectural Advantages
 
-- **⚡ Token-Efficient (~80% Reduction):** Replaces verbose terminal dumps with single-call, schema-validated JSON envelopes.
+- **⚡ Token-Efficient on Multi-Signal Queries:** Batches observations (branch state, PR mergeability, CI rollup, review status) into a single schema-validated JSON envelope instead of several raw `git`/`gh` calls. Measured savings vary with task: modest (~10-15%) on read-heavy multi-command checks like PR status, and can be a net *increase* on trivial single-step mutations, since the envelope carries fixed repository/branch/GitHub metadata on every call.
 - **🛡️ Safe-by-Default Policy Engine:** Disallows accidental commits, unauthorized pushes to base branches, and unapproved merges out-of-the-box.
 - **🔒 Two-Factor Merge Safety:** Merging a PR requires both recorded GitHub code review approval (`APPROVED`) and explicit confirmation (`--yes`).
 - **✋ Confirmation Gate on Mutations:** `prepare`, `push`, and `sync` each require explicit confirmation (`--yes`) by default (`*.require_confirmation`), enforced in the decision layer — not just prompted for by the calling agent.
