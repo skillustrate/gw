@@ -1,0 +1,27 @@
+# Binaries
+bin/
+dist/
+build/
+/gw
+/gw.exe
+*.exe
+
+# Go test / coverage artifacts
+*.test
+*.test.exe
+*.out
+*.prof
+*.cov
+coverage.txt
+
+# Local / temporary
+.wip
+.gw.yml
+.git/gw.lock
+
+# Ignore all markdown files
+*.md
+!README.md
+!skill/**/*.md
+!.agents/**/*.md
+!.gemini/**/*.md

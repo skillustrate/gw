@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "SUCCESS",
+  "code": "PR_CREATED",
+  "action": "CREATE_PR",
+  "reason": "Working tree clean, branch pushed, no existing PR.",
+  "next_action": null,
+  "data": {
+    "pr": {
+      "number": 142,
+      "url": "https://github.com/owner/repo/pull/142"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-05T12:00:00Z",
+  "engine_version": "0.1.0",
+  "repository": {
+    "is_git_repo": true,
+    "root": "/home/user/project",
+    "default_branch": "main",
+    "current_branch": "feature/login",
+    "detached": false
+  },
+  "working_tree": {
+    "clean": false,
+    "staged": true,
+    "unstaged": false,
+    "untracked": false,
+    "conflicted": false,
+    "in_progress_operation": null
+  },
+  "branch": {
+    "is_default": false,
+    "has_upstream": false,
+    "upstream": "",
+    "ahead": 0,
+    "behind": 0,
+    "diverged": false
+  },
+  "github": {
+    "available": true,
+    "authenticated": false,
+    "repository": "",
+    "pull_request": null
+  }
+}

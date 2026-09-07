@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "VERIFICATION_FAILED",
+  "code": "POST_MUTATION_MISMATCH",
+  "action": "PUSH",
+  "reason": "Branch verification failed after push execution.",
+  "next_action": "gw inspect --json"
+}

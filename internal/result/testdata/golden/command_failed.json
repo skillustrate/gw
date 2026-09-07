@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "COMMAND_FAILED",
+  "code": "GIT_EXEC_ERROR",
+  "action": "FETCH",
+  "reason": "Git command failed to connect to remote repository.",
+  "next_action": "Check network connection and retry."
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED",
+  "code": "WORKTREE_DIRTY",
+  "action": "PUSH",
+  "reason": "Working tree contains uncommitted changes.",
+  "next_action": "gw prepare --json"
+}

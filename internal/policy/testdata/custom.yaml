@@ -1,0 +1,24 @@
+version: 1
+base_branch: develop
+
+commit:
+  allow: true
+
+push:
+  allow: false
+  allow_set_upstream: false
+
+pull_request:
+  create: true
+  draft: true
+
+merge:
+  allow: true
+  require_checks: false
+  require_approval: false
+
+sync:
+  strategy: ff-only
+
+lock:
+  stale_after: 5m

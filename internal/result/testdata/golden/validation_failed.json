@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "VALIDATION_FAILED",
+  "code": "USAGE_ERROR",
+  "action": "UNKNOWN",
+  "reason": "Unrecognized command flag: --unknown",
+  "next_action": "Run gw --help for valid usage."
+}

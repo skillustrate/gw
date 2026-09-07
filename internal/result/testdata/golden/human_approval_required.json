@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "HUMAN_APPROVAL_REQUIRED",
+  "code": "REVIEW_APPROVAL_REQUIRED",
+  "action": "PR_MERGE",
+  "reason": "PR requires human review approval on GitHub before merging.",
+  "next_action": "Obtain reviewer approval on GitHub PR."
+}

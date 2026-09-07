@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "ACTION_REQUIRED",
+  "code": "PUSH_REQUIRED",
+  "action": "PR_CREATE",
+  "reason": "Branch has unpushed commits.",
+  "next_action": "gw push --json"
+}

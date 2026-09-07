@@ -1,0 +1,4 @@
+version: 1
+base_branch: main
+sync:
+  strategy: yolo

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "CONFLICT",
+  "code": "BRANCH_DIVERGED",
+  "action": "SYNC",
+  "reason": "Local branch has diverged from upstream tracking branch.",
+  "next_action": "Resolve divergence manually or rebase before syncing."
+}

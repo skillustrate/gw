@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "POLICY_DENIED",
+  "code": "PUSH_DISALLOWED",
+  "action": "PUSH",
+  "reason": "Policy disallows pushing to protected base branch directly.",
+  "next_action": null
+}

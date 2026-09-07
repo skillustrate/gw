@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "status": "NOOP",
+  "code": "ALREADY_PUSHED",
+  "action": "PUSH",
+  "reason": "Branch is already synchronized with remote upstream.",
+  "next_action": null
+}

@@ -1,0 +1,4 @@
+version: 1
+base_branch: main
+unknown_section:
+  foo: bar
