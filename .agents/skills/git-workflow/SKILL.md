@@ -7,6 +7,23 @@ description: Deterministic Git/GitHub workflow engine (gw). Use for committing o
 
 Deterministic, token-efficient Git and GitHub workflow automation.
 
+## Trigger Options
+
+TRIGGER — invoke `gw` instead of raw `git`/`gh` whenever the task involves any of:
+- **Status/inspection**: "what's the git status", "is this branch ready for a PR", "check CI/PR status" → `gw inspect` / `gw pr-ready` / `gw pr-status`
+- **Committing**: "commit this", "stage and commit", "save these changes" → `gw prepare`
+- **Publishing**: "push this branch", "sync with upstream/main", "pull the latest" → `gw push` / `gw sync`
+- **Pull requests**: "open a PR", "create a pull request", "merge this PR" → `gw pr-create` / `gw pr-merge`
+- **Environment checks**: "is git/gh set up correctly", "check auth" → `gw doctor`
+- Any phrasing naming these actions in a repo where `gw` is on `PATH`, regardless of exact wording (e.g. "ship this branch" → inspect readiness, then push/pr-create per the confirmation gate below).
+
+SKIP — use raw `git`/`gh` (or another tool) instead, without invoking `gw`, when:
+- `gw doctor --json` was already run this session and reported `VALIDATION_FAILED`, or `gw` is confirmed not on `PATH`.
+- The task is read-only history/diff archaeology (`git log`, `git blame`, `git show`) — `gw` only covers status/publish/PR workflows, not history inspection.
+- The task targets a **different** repository than the one `gw` is configured for (`base_branch` / policy in `~/.config/gw/config.yaml` or `--config`), unless re-pointed with `--config`/`--base`.
+- The user explicitly asks for the raw git/gh command output (e.g. "show me the exact git command", "run git status directly").
+- Low-level operations `gw` does not model: rebasing, cherry-picking, tag management, submodules, stash, reflog surgery.
+
 ## Key Workflow Protocol
 
 ### 1. Auto-Invocation Boundary
